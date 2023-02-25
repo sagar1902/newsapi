@@ -1,25 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import Navbar from './components/Navbar';
+import NewsBody from './components/NewsBody';
+import React, { Component } from 'react';
+import { Outlet, BrowserRouter, Routes, Route } from "react-router-dom";
+import Spinner from './components/Spinner';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+export default class App extends Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <div className='container-fluid'>
+          <Navbar />
+          <Routes>
+            {["/", "business", "entertainment", "general", "health", "science", "sports", "technology"].map((e) => {
+              return (
+                <Route key={e} path={`${e}`} element={<NewsBody category={e} apikey="45e0d53979f34696a0c1bededb19956c" pagesize={{ pagesize: [5, 3] }} />} />
+              )
+            })}
+            <Route path="about" element={<Spinner/>}/>
+          </Routes>
+          <Outlet />
+        </div>
+      </BrowserRouter>
+    )
+  }
 }
 
-export default App;

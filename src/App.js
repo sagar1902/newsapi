@@ -1,16 +1,14 @@
 import './App.css';
 import Navbar from './components/Navbar';
 import NewsBody from './components/NewsBody';
-import React, { Component } from 'react';
+import React from 'react';
 import { Outlet, BrowserRouter, Routes, Route } from "react-router-dom";
 import Spinner from './components/Spinner';
 
 
 
-export default class App extends Component {
+export default function App(){
 
-
-  render() {
     return (
       <BrowserRouter>
         <div className='container-fluid'>
@@ -28,5 +26,3 @@ export default class App extends Component {
       </BrowserRouter>
     )
   }
-}
-

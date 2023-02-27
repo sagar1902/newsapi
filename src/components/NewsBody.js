@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NewsItem from './NewsItem';
 import Spinner from './Spinner';
 import PropTypes from 'prop-types';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import NewsCarousel from './NewsCarousel';
 
 
 export default class NewsBody extends Component {
@@ -20,6 +20,7 @@ export default class NewsBody extends Component {
     constructor() {
         super();
         this.state = {
+            cArticles: [],
             articles: [],
             loading: false,
             totalPages: 0,
@@ -30,17 +31,17 @@ export default class NewsBody extends Component {
 
 
     async componentDidMount() {
-        let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category==="/"?"general":this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page}&pagesize=${this.props.pagesize.pagesize[0] * this.props.pagesize.pagesize[1]}`;
+        let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category === "/" ? "general" : this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page}&pagesize=${this.props.pagesize.pagesize[0] * this.props.pagesize.pagesize[1]}`;
         this.setState({ loading: true });
         let data = await fetch(url);
         let parsedData = await data.json();
-        this.setState({ articles: parsedData.articles, totalResults: parsedData.totalResults, loading: false, totalPages: Math.ceil(parsedData.totalResults / (this.props.pagesize.pagesize[0] * this.props.pagesize.pagesize[1])) });
+        this.setState({ cArticles: parsedData.articles.filter((e)=>{return e.urlToImage}).slice(0,3), articles: parsedData.articles, totalResults: parsedData.totalResults, loading: false, totalPages: Math.ceil(parsedData.totalResults / (this.props.pagesize.pagesize[0] * this.props.pagesize.pagesize[1])) });
     }
 
 
     previousPage = async () => {
         this.setState({ page: this.state.page - 1 });
-        let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category==="/"?"general":this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page - 1}&pagesize=${this.props.pagesize.pagesize[0] * this.props.pagesize.pagesize[1]}`;
+        let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category === "/" ? "general" : this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page - 1}&pagesize=${this.props.pagesize.pagesize[0] * this.props.pagesize.pagesize[1]}`;
         this.setState({ loading: true });
         let data = await fetch(url);
         let parsedData = await data.json();
@@ -49,7 +50,7 @@ export default class NewsBody extends Component {
 
     nextPage = async () => {
         this.setState({ page: this.state.page + 1 });
-        let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category==="/"?"general":this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page + 1}&pagesize=${this.props.pagesize.pagesize[0] * this.props.pagesize.pagesize[1]}`;
+        let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category === "/" ? "general" : this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page + 1}&pagesize=${this.props.pagesize.pagesize[0] * this.props.pagesize.pagesize[1]}`;
         this.setState({ loading: true });
         let data = await fetch(url);
         let parsedData = await data.json();
@@ -59,6 +60,12 @@ export default class NewsBody extends Component {
     render() {
         return (
             <>
+                <div className="container my-3">
+                    <h1 style={{height: "7rem"}}>AAJ tak</h1>
+                </div>
+                <div className="container my-3">
+                    <NewsCarousel cArticles={this.state.cArticles}/>
+                </div>
                 <div className="container my-3">
                     <nav aria-label="Page navigation example">
                         <ul className="pagination justify-content-end">
@@ -92,7 +99,6 @@ export default class NewsBody extends Component {
                 }
                 {!this.state.loading &&
                     <div className="container my-3">
-                        <h2>AAJ tak</h2>
                         <div className="row my-6">
                             {this.state.articles.map((element) => {
                                 return (

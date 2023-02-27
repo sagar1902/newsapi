@@ -18,7 +18,7 @@ export default class App extends Component {
           <Routes>
             {["/", "business", "entertainment", "general", "health", "science", "sports", "technology"].map((e) => {
               return (
-                <Route key={e} path={`${e}`} element={<NewsBody category={e} apikey='45e0d53979f34696a0c1bededb19956c' pagesize={{ pagesize: [5, 3] }} />} />
+                <Route key={e} path={`${e}`} element={<NewsBody category={e} apikey='23e585f3c5fa421cb2ffb8cdce3b0ea0' pagesize={{ pagesize: [5, 3] }} />} />
               )
             })}
             <Route path="about" element={<Spinner/>}/>

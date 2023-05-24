@@ -8,7 +8,7 @@ import Spinner from './components/Spinner';
 
 
 export default function App(){
-
+const apikey = process.env.REACT_APP_NEWS_API_KEY
     return (
       <BrowserRouter>
         <div className='container-fluid'>
@@ -16,7 +16,7 @@ export default function App(){
           <Routes>
             {["/", "business", "entertainment", "general", "health", "science", "sports", "technology"].map((e) => {
               return (
-                <Route key={e} path={`${e}`} element={<NewsBody category={e} apikey='23e585f3c5fa421cb2ffb8cdce3b0ea0' pagesize={{ pagesize: [5, 3] }} />} />
+                <Route key={e} path={`${e}`} element={<NewsBody category={e} apikey={apikey} pagesize={{ pagesize: [5, 3] }} />} />
               )
             })}
             <Route path="about" element={<Spinner/>}/>
